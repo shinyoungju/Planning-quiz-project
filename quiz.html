@@ -3,21 +3,26 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>컬러 무드 아키타입 테스트 | MindMint</title>
+  <title>컬러 무드 테스트 | MindMint</title>
   <meta name="description" content="10개의 간단한 문항으로 오늘의 컬러 무드 아키타입을 알아보세요." />
 
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="컬러 무드 아키타입 테스트" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="컬러 무드 테스트 | MindMint" />
   <meta property="og:description" content="10문항으로 나의 무드를 색으로 표현해보자!" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://example.com/assets/share.png" />
-  <meta property="og:url" content="https://YOUR-USERNAME.github.io/quiz.html" />
+  <meta property="og:image" content="https://shinyoungju.github.io/Planning-quiz-project/assets/share.png" />
+  <meta property="og:url" content="https://shinyoungju.github.io/Planning-quiz-project/quiz.html" />
+  <meta property="og:site_name" content="MindMint" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="preload" href="/assets/styles.css" as="style">
-  <link rel="stylesheet" href="/assets/styles.css">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 
-  <!-- Minimal structured data (Quiz with questions) -->
+  <!-- Styles -->
+  <link rel="stylesheet" href="./assets/styles.css">
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -30,29 +35,26 @@
   </script>
 </head>
 <body>
-  <header class="container">
-    <nav class="nav">
-      <a class="brand" href="/">MindMint</a>
-      <a class="cta" href="#quiz">바로 시작</a>
-    </nav>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="./">MindMint</a>
+      <nav class="menu">
+        <a class="menu-link" href="./quiz.html">테스트</a>
+      </nav>
+    </div>
   </header>
 
-  <main class="container narrow">
-    <h1>컬러 무드 아키타입 테스트</h1>
-    <p class="muted">다음 문항에 가장 가까운 선택지를 고르세요. (약 2~3분)</p>
+  <main class="container-narrow">
+    <h1 class="page-title">컬러 무드 아키타입 테스트</h1>
+    <p class="muted">가장 가까운 선택지를 고르세요. (약 2~3분)</p>
 
     <form id="quiz" class="quiz" aria-describedby="quiz-help">
       <p id="quiz-help" class="sr-only">각 문항은 4점 척도 라디오 버튼으로 제공됩니다.</p>
-
-      <!-- Questions -->
-      <ol class="q-list">
-        <!-- We categorize into 4 archetypes using scoring buckets: Spark(활발/긍정), Anchor(차분/안정), Navigator(계획/분석), Maverick(도전/창의) -->
-        <!-- Each question contributes to one or two buckets via data-attr in inputs. -->
-      </ol>
+      <ol class="q-list"></ol>
 
       <div class="form-actions">
-        <button type="submit" class="btn primary">결과 보기</button>
-        <button type="reset" class="btn ghost">리셋</button>
+        <button type="submit" class="btn btn-primary">결과 보기</button>
+        <button type="reset" class="btn btn-ghost">리셋</button>
       </div>
     </form>
 
@@ -65,20 +67,20 @@
           <p id="result-desc" class="result-desc"></p>
           <div class="share">
             <button id="shareBtn" class="btn">결과 공유</button>
-            <a id="copyLink" class="btn ghost" href="#" role="button">링크 복사</a>
+            <a id="copyLink" class="btn btn-ghost" href="#" role="button">링크 복사</a>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="container footer">
-    <p>&copy; <span id="year"></span> MindMint</p>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> MindMint</p>
+    </div>
   </footer>
 
-  <script src="/assets/quiz.js"></script>
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script src="./assets/quiz.js"></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>

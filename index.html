@@ -3,61 +3,79 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MindMint | 가볍게 즐기는 심리 테스트</title>
-  <meta name="description" content="가볍게 즐기는 심리 테스트와 재미있는 결과 공유. 소셜에서 바로 공유되는 미리보기와 접근성을 갖춘 가벼운 웹." />
+  <title>MindMint • 컬러 무드 심리 테스트</title>
+  <meta name="description" content="깔끔하고 감성적인 컬러 무드 심리 테스트. 2분 만에 결과를 받고 바로 공유하세요." />
 
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="MindMint | 가볍게 즐기는 심리 테스트" />
-  <meta property="og:description" content="5분만에 '컬러 무드 아키타입' 결과를 받아보세요!" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="MindMint • 컬러 무드 심리 테스트" />
+  <meta property="og:description" content="가볍게 즐기는 감성 심리 테스트. 지금 시작해보세요!" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://example.com/assets/share.png" />
-  <meta property="og:url" content="https://YOUR-USERNAME.github.io/" />
+  <meta property="og:image" content="https://shinyoungju.github.io/Planning-quiz-project/assets/share.png" />
+  <meta property="og:url" content="https://shinyoungju.github.io/Planning-quiz-project/" />
+  <meta property="og:site_name" content="MindMint" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="preload" href="/assets/styles.css" as="style">
-  <link rel="stylesheet" href="/assets/styles.css">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./assets/styles.css">
 </head>
 <body>
-  <header class="container">
-    <nav class="nav">
-      <a class="brand" href="/">MindMint</a>
-      <a class="cta" href="./quiz.html" aria-label="컬러 무드 아키타입 심리 테스트 시작하기">심리 테스트 시작</a>
-    </nav>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="./">MindMint</a>
+      <nav class="menu">
+        <a class="menu-link" href="./quiz.html">테스트</a>
+        <a class="menu-link" href="https://github.com/shinyoungju/Planning-quiz-project" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
   </header>
 
-  <main class="container">
-    <section class="hero" role="banner">
-      <h1>가볍지만 ✨센스있는✨ 심리 테스트</h1>
-      <p>접근성, 속도, 공유 최적화까지 갖춘 초경량 웹. GitHub Pages에 그대로 배포하면 끝.</p>
-      <div class="actions">
-        <a class="btn primary" href="./quiz.html">컬러 무드 아키타입 테스트</a>
-        <a class="btn ghost" href="https://github.com/new" target="_blank" rel="noopener">GitHub Pages 시작</a>
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <h1 class="hero-title">가볍지만 감성있는<br><span class="accent">컬러 무드 심리 테스트</span></h1>
+        <p class="hero-sub">2분 만에 오늘의 무드를 색으로 표현해보세요. 결과는 링크 한 번으로 바로 공유됩니다.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="./quiz.html" aria-label="컬러 무드 심리 테스트 시작하기">지금 시작하기</a>
+          <a class="btn btn-ghost" href="#features">무슨 사이트인가요?</a>
+        </div>
       </div>
+      <div class="gradient"></div>
     </section>
 
-    <section class="features">
-      <div class="card">
-        <h2>빠른 공유</h2>
-        <p>Open Graph 메타태그로 미리보기 최적화. 카카오톡/라인/트위터에서 깔끔하게 보입니다.</p>
-      </div>
-      <div class="card">
-        <h2>접근성 우선</h2>
-        <p>네이티브 폼 컨트롤과 <code>&lt;fieldset&gt;</code> / <code>&lt;legend&gt;</code> 사용으로 스크린리더 친화적.</p>
-      </div>
-      <div class="card">
-        <h2>완전 클라이언트</h2>
-        <p>서버 없이 순수 HTML/CSS/JS. GitHub Pages에 바로 호스팅 가능.</p>
+    <section id="features" class="features">
+      <div class="container grid">
+        <article class="card">
+          <h2>빠른 공유</h2>
+          <p class="muted">Open Graph 최적화로 카카오톡/라인/X에서 썸네일이 깔끔하게 보여요.</p>
+        </article>
+        <article class="card">
+          <h2>접근성 우선</h2>
+          <p class="muted">네이티브 폼 + <code>fieldset</code>/<code>legend</code> 구조로 스크린리더 친화적.</p>
+        </article>
+        <article class="card">
+          <h2>완전 클라이언트</h2>
+          <p class="muted">서버 없이 HTML/CSS/JS만으로 동작. GitHub Pages에 바로 배포.</p>
+        </article>
       </div>
     </section>
 
     <section class="cta-section">
-      <h2>시작해볼까요?</h2>
-      <a class="btn primary" href="./quiz.html">테스트 하러 가기</a>
+      <div class="container cta-inner">
+        <h2>오늘의 컬러 무드, 지금 확인해보세요.</h2>
+        <a class="btn btn-primary large" href="./quiz.html">테스트 시작</a>
+      </div>
     </section>
   </main>
 
-  <footer class="container footer">
-    <p>&copy; <span id="year"></span> MindMint</p>
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> MindMint</p>
+    </div>
   </footer>
 
   <script>

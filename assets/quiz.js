@@ -1,4 +1,4 @@
-// Build 10 questions dynamically to keep HTML small
+// v2 quiz logic (same core, improved text + result share)
 const QUESTIONS = [
   { t: '새로운 사람들과의 만남은 보통', k: 'Spark', a: ['즐겁다','가끔 즐겁다','상황에 따라','부담스럽다'] },
   { t: '주말 계획은', k: 'Navigator', a: ['세부 계획 필수','대략만 세운다','그때그때','완전 즉흥'] },
@@ -13,10 +13,10 @@ const QUESTIONS = [
 ];
 
 const ARCH = {
-  Spark:  { name: 'Spark (전기빛 블루)', color: '#60a5fa', desc: '사람과 에너지에서 동력을 얻는 활기형. 시작의 불꽃을 잘 일으킵니다.' },
-  Anchor: { name: 'Anchor (숲녹 그린)', color: '#34d399', desc: '안정과 지속에 강한 균형형. 팀의 중심을 잡아주는 든든함.' },
+  Spark:  { name: 'Spark (전기빛 블루)', color: '#4D96FF', desc: '사람과 에너지에서 동력을 얻는 활기형. 시작의 불꽃을 잘 일으킵니다.' },
+  Anchor: { name: 'Anchor (숲녹 그린)', color: '#22C55E', desc: '안정과 지속에 강한 균형형. 팀의 중심을 잡아주는 든든함.' },
   Navigator: { name: 'Navigator (딥 바이올렛)', color: '#8b5cf6', desc: '분석·계획에 강한 전략가형. 복잡한 퍼즐을 구조화합니다.' },
-  Maverick: { name: 'Maverick (선셋 오렌지)', color: '#fb923c', desc: '새로움을 사랑하는 개척형. 규칙 밖에서 기회를 찾습니다.' }
+  Maverick: { name: 'Maverick (선셋 오렌지)', color: '#FF6B6B', desc: '새로움을 사랑하는 개척형. 규칙 밖에서 기회를 찾습니다.' }
 };
 
 const ol = document.querySelector('.q-list');
@@ -32,16 +32,8 @@ QUESTIONS.forEach((q, i) => {
     const wrap = document.createElement('label'); wrap.className = 'opt'; wrap.setAttribute('for', id);
     const input = document.createElement('input');
     input.type = 'radio'; input.name = `q${i}`; input.id = id; input.required = true;
-    // score: leftmost favors first two archetypes; map by choice index (0..3)
-    let scoreMap = {Spark:0, Anchor:0, Navigator:0, Maverick:0};
-    if(q.k==='Spark'){ scoreMap = [3,2,1,0][idx]; }
-    if(q.k==='Anchor'){ scoreMap = [3,2,1,0][idx]; }
-    if(q.k==='Navigator'){ scoreMap = [3,2,1,0][idx]; }
-    if(q.k==='Maverick'){ scoreMap = [3,2,1,0][idx]; }
-    // store archetype and raw weight per option
     input.dataset.arch = q.k;
     input.dataset.weight = [3,2,1,0][idx];
-
     const span = document.createElement('span'); span.textContent = label;
     wrap.appendChild(input); wrap.appendChild(span);
     opts.appendChild(wrap);
@@ -70,7 +62,6 @@ form.addEventListener('submit', (e) => {
     const w = parseInt(input.dataset.weight, 10) || 0;
     scores[arch] += w;
   }
-  // pick max
   const best = Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];
   const meta = ARCH[best];
   titleEl.textContent = meta.name;
@@ -98,7 +89,7 @@ form.addEventListener('submit', (e) => {
           text: meta.desc,
           url: shareUrl.toString()
         });
-      } catch(e){ /* user canceled */ }
+      } catch(e){ /* canceled */ }
     };
   } else {
     shareBtn.disabled = true;
@@ -106,7 +97,6 @@ form.addEventListener('submit', (e) => {
   }
 });
 
-// If URL has pre-selected result (shared link), reveal it
 (function initFromURL(){
   const a = new URLSearchParams(location.search).get('a');
   if (a && ARCH[a]) {
