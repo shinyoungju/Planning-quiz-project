@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>컬러 무드 아키타입 테스트 | MindMint</title>
+  <meta name="description" content="10개의 간단한 문항으로 오늘의 컬러 무드 아키타입을 알아보세요." />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="컬러 무드 아키타입 테스트" />
+  <meta property="og:description" content="10문항으로 나의 무드를 색으로 표현해보자!" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://example.com/assets/share.png" />
+  <meta property="og:url" content="https://YOUR-USERNAME.github.io/quiz.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preload" href="/assets/styles.css" as="style">
+  <link rel="stylesheet" href="/assets/styles.css">
+
+  <!-- Minimal structured data (Quiz with questions) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "컬러 무드 아키타입 테스트",
+    "about": "가벼운 성향 파악 테스트",
+    "creator": {"@type": "Organization","name": "MindMint"},
+    "isAccessibleForFree": true
+  }
+  </script>
+</head>
+<body>
+  <header class="container">
+    <nav class="nav">
+      <a class="brand" href="/">MindMint</a>
+      <a class="cta" href="#quiz">바로 시작</a>
+    </nav>
+  </header>
+
+  <main class="container narrow">
+    <h1>컬러 무드 아키타입 테스트</h1>
+    <p class="muted">다음 문항에 가장 가까운 선택지를 고르세요. (약 2~3분)</p>
+
+    <form id="quiz" class="quiz" aria-describedby="quiz-help">
+      <p id="quiz-help" class="sr-only">각 문항은 4점 척도 라디오 버튼으로 제공됩니다.</p>
+
+      <!-- Questions -->
+      <ol class="q-list">
+        <!-- We categorize into 4 archetypes using scoring buckets: Spark(활발/긍정), Anchor(차분/안정), Navigator(계획/분석), Maverick(도전/창의) -->
+        <!-- Each question contributes to one or two buckets via data-attr in inputs. -->
+      </ol>
+
+      <div class="form-actions">
+        <button type="submit" class="btn primary">결과 보기</button>
+        <button type="reset" class="btn ghost">리셋</button>
+      </div>
+    </form>
+
+    <section id="result" class="result" aria-live="polite" aria-atomic="true" hidden>
+      <h2>당신의 컬러 무드</h2>
+      <div class="result-card">
+        <div class="swatch" id="swatch" aria-hidden="true"></div>
+        <div>
+          <p id="result-title" class="result-title"></p>
+          <p id="result-desc" class="result-desc"></p>
+          <div class="share">
+            <button id="shareBtn" class="btn">결과 공유</button>
+            <a id="copyLink" class="btn ghost" href="#" role="button">링크 복사</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <p>&copy; <span id="year"></span> MindMint</p>
+  </footer>
+
+  <script src="/assets/quiz.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
