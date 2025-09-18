@@ -1,4 +1,4 @@
-// v2 quiz logic (same core, improved text + result share)
+// v3: quiz logic + Canvas share image
 const QUESTIONS = [
   { t: '새로운 사람들과의 만남은 보통', k: 'Spark', a: ['즐겁다','가끔 즐겁다','상황에 따라','부담스럽다'] },
   { t: '주말 계획은', k: 'Navigator', a: ['세부 계획 필수','대략만 세운다','그때그때','완전 즉흥'] },
@@ -26,7 +26,6 @@ QUESTIONS.forEach((q, i) => {
   const lg = document.createElement('legend'); lg.textContent = `${i+1}. ${q.t}`;
   fs.appendChild(lg);
   const opts = document.createElement('div'); opts.className = 'opts';
-
   q.a.forEach((label, idx) => {
     const id = `q${i}_o${idx}`;
     const wrap = document.createElement('label'); wrap.className = 'opt'; wrap.setAttribute('for', id);
@@ -38,7 +37,6 @@ QUESTIONS.forEach((q, i) => {
     wrap.appendChild(input); wrap.appendChild(span);
     opts.appendChild(wrap);
   });
-
   fs.appendChild(opts);
   li.appendChild(fs);
   ol.appendChild(li);
@@ -51,6 +49,97 @@ const descEl = document.getElementById('result-desc');
 const swatch = document.getElementById('swatch');
 const shareBtn = document.getElementById('shareBtn');
 const copyLink = document.getElementById('copyLink');
+
+const canvas = document.getElementById('resultCanvas');
+const ctx = canvas.getContext('2d');
+const genBtn = document.getElementById('generateImage');
+const dlLink = document.getElementById('downloadImage');
+
+function wrapText(context, text, x, y, maxWidth, lineHeight) {
+  const words = text.split(' ');
+  let line = '';
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + ' ';
+    const metrics = context.measureText(testLine);
+    const testWidth = metrics.width;
+    if (testWidth > maxWidth && n > 0) {
+      context.fillText(line, x, y);
+      line = words[n] + ' ';
+      y += lineHeight;
+    } else {
+      line = testLine;
+    }
+  }
+  context.fillText(line, x, y);
+}
+
+function drawShareImage(title, desc, color) {
+  const w = canvas.width, h = canvas.height;
+  // background
+  ctx.fillStyle = '#F9F9F9';
+  ctx.fillRect(0,0,w,h);
+
+  // soft gradient blob
+  const grd = ctx.createLinearGradient(0,0,w,h);
+  grd.addColorStop(0, 'rgba(77,150,255,0.18)');
+  grd.addColorStop(1, 'rgba(255,107,107,0.15)');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0,0,w,h);
+
+  // card
+  ctx.fillStyle = '#FFFFFF';
+  ctx.strokeStyle = '#E7E7E7';
+  ctx.lineWidth = 2;
+  const pad = 48;
+  const cardX = pad, cardY = pad, cardW = w - pad*2, cardH = h - pad*2;
+  ctx.fillRect(cardX, cardY, cardW, cardH);
+  ctx.strokeRect(cardX, cardY, cardW, cardH);
+
+  // swatch
+  ctx.fillStyle = color || '#FF6B6B';
+  ctx.fillRect(cardX + 32, cardY + 32, 96, 96);
+
+  // title
+  ctx.fillStyle = '#2E2E2E';
+  ctx.font = 'bold 56px Inter, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(title, cardX + 152, cardY + 96);
+
+  // desc
+  ctx.fillStyle = '#6B6B6B';
+  ctx.font = '24px Inter, sans-serif';
+  wrapText(ctx, desc, cardX + 32, cardY + 170, cardW - 64, 34);
+
+  // brand footer
+  ctx.font = '600 22px Inter, sans-serif';
+  ctx.fillStyle = '#4D96FF';
+  ctx.fillText('MindMint • planning-quiz-project', cardX + 32, cardY + cardH - 28);
+}
+
+async function generateAndOfferImage() {
+  // Wait fonts ready for accurate text metrics
+  if (document.fonts && document.fonts.ready) {
+    try { await document.fonts.ready; } catch(e) {}
+  }
+  const title = titleEl.textContent || 'My Color Mood';
+  const desc = descEl.textContent || '컬러 무드 결과';
+  const color = swatch.style.backgroundColor || '#FF6B6B';
+  drawShareImage(title, desc, color);
+
+  // Provide download link
+  const dataURL = canvas.toDataURL('image/png');
+  dlLink.href = dataURL;
+  dlLink.hidden = false;
+
+  // Optional: share files if supported
+  if (navigator.canShare && navigator.canShare({ files: [] })) {
+    canvas.toBlob(blob => {
+      if (!blob) return;
+      const file = new File([blob], 'mindmint-result.png', { type: 'image/png' });
+      navigator.share({ files: [file], title: title, text: desc }).catch(()=>{});
+    }, 'image/png');
+  }
+}
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -89,7 +178,7 @@ form.addEventListener('submit', (e) => {
           text: meta.desc,
           url: shareUrl.toString()
         });
-      } catch(e){ /* canceled */ }
+      } catch(e){}
     };
   } else {
     shareBtn.disabled = true;
@@ -97,12 +186,16 @@ form.addEventListener('submit', (e) => {
   }
 });
 
+document.getElementById('generateImage').addEventListener('click', generateAndOfferImage);
+
+// init from shared URL param
 (function initFromURL(){
   const a = new URLSearchParams(location.search).get('a');
   if (a && ARCH[a]) {
-    titleEl.textContent = ARCH[a].name;
-    descEl.textContent = ARCH[a].desc;
-    swatch.style.background = ARCH[a].color;
+    const meta = ARCH[a];
+    titleEl.textContent = meta.name;
+    descEl.textContent = meta.desc;
+    swatch.style.background = meta.color;
     result.hidden = false;
   }
 })();
