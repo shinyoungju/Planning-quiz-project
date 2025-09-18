@@ -30,7 +30,7 @@ QUESTIONS.forEach((q, i) => {
     const id = `q${i}_o${idx}`;
     const wrap = document.createElement('label'); wrap.className = 'opt'; wrap.setAttribute('for', id);
     const input = document.createElement('input');
-    input.type = 'radio'; input.name = `q${i}`; input.id = id; input.required = true;
+    input.type = 'radio'; input.name = `q${i}`; input.id = id; input.required = true; input.value = id;
     input.dataset.arch = q.k;
     input.dataset.weight = [3,2,1,0][idx];
     const span = document.createElement('span'); span.textContent = label;
